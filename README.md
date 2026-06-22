@@ -20,6 +20,32 @@ python certcheck.py example.com
 Python 3.10+. The only third-party dependency is
 [`cryptography`](https://pypi.org/project/cryptography/).
 
+## Windows
+
+Three ways to run it, in order of "least Python ceremony":
+
+1. **Standalone .exe (no Python needed).** Build a single self-contained executable:
+
+   ```powershell
+   .\build.ps1            # produces dist\certcheck.exe (~14 MB, bundles Python + cryptography)
+   .\dist\certcheck.exe example.com google.com
+   ```
+
+   Drop `certcheck.exe` anywhere — a server, a USB stick, a Task Scheduler action — no
+   runtime install required.
+
+2. **`certcheck.cmd` from source.** Put this folder on your `PATH` and call `certcheck`
+   directly from `cmd` or PowerShell (uses your installed Python):
+
+   ```powershell
+   certcheck example.com --warn 45
+   ```
+
+3. **`pip install .`** — creates a `certcheck.exe` shim in your Python `Scripts\` directory.
+
+Exit codes propagate, so it works in Task Scheduler / CI the same as on Linux. ANSI color
+auto-disables when output isn't a console (or set `NO_COLOR`).
+
 ## Usage
 
 ```bash
