@@ -22,17 +22,32 @@ Python 3.10+. The only third-party dependency is
 
 ## Windows
 
-Three ways to run it, in order of "least Python ceremony":
+### GUI (no command line, no Python)
 
-1. **Standalone .exe (no Python needed).** Build a single self-contained executable:
+For a point-and-click tool, build the GUI executable:
+
+```powershell
+.\build.ps1                 # produces dist\certcheck.exe and dist\certcheck-gui.exe
+.\dist\certcheck-gui.exe    # or just double-click it
+```
+
+`certcheck-gui.exe` is fully self-contained (~24 MB, bundles Python + Tk + the deps).
+Double-click it, paste your hosts (one per line), click **Scan**, and read the colour-coded
+results. It **remembers your host list and thresholds** between runs (saved to
+`%APPDATA%\certcheck\config.json`) and exports the results to an **Excel (.xlsx)** workbook
+with one button. Nothing to install — hand the single `.exe` to whoever needs it.
+
+### Command line
+
+Three ways to run the CLI, in order of "least Python ceremony":
+
+1. **Standalone `certcheck.exe` (no Python needed)** — built alongside the GUI by `build.ps1`:
 
    ```powershell
-   .\build.ps1            # produces dist\certcheck.exe (~14 MB, bundles Python + cryptography)
    .\dist\certcheck.exe example.com google.com
    ```
 
-   Drop `certcheck.exe` anywhere — a server, a USB stick, a Task Scheduler action — no
-   runtime install required.
+   Drop it anywhere — a server, a USB stick, a Task Scheduler action — no runtime install.
 
 2. **`certcheck.cmd` from source.** Put this folder on your `PATH` and call `certcheck`
    directly from `cmd` or PowerShell (uses your installed Python):
@@ -42,8 +57,9 @@ Three ways to run it, in order of "least Python ceremony":
    ```
 
 3. **`pip install .`** — creates a `certcheck.exe` shim in your Python `Scripts\` directory.
+   (`pip install .[gui]` also pulls in `openpyxl` for the GUI's Excel export.)
 
-Exit codes propagate, so it works in Task Scheduler / CI the same as on Linux. ANSI color
+Exit codes propagate, so the CLI works in Task Scheduler / CI the same as on Linux. ANSI color
 auto-disables when output isn't a console (or set `NO_COLOR`).
 
 ## Usage

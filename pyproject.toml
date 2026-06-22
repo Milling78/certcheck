@@ -19,11 +19,17 @@ classifiers = [
 ]
 dependencies = ["cryptography>=42.0"]
 
+[project.optional-dependencies]
+gui = ["openpyxl>=3.1"]   # Excel export; Tkinter ships with Python
+
 [project.urls]
 Homepage = "https://github.com/Milling78/certcheck"
 
 [project.scripts]
 certcheck = "certcheck:main"
 
+[project.gui-scripts]
+certcheck-gui = "certcheck_gui:main"
+
 [tool.setuptools]
-py-modules = ["certcheck"]
+py-modules = ["certcheck", "certcheck_gui"]
